@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
-const port = 3000;
+// Use the PORT environment variable provided by Render (or default to 3000 locally)
+const port = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
   res.send('Hello World!');

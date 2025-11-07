@@ -5,6 +5,8 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+  # Allow manual runs from the Actions tab (use "Run workflow")
+  workflow_dispatch: {}
 
 jobs:
   build:
@@ -27,3 +29,26 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
     - run: npm test
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    # Only trigger deploy on direct pushes to master (not on PRs)
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    # Required to allow the action to create GitHub deployment statuses when enabled
+    permissions:
+      deployments: write
+    steps:
+    - uses: actions/checkout@v3
+    - name: Deploy to Render
+      uses: JorgeLNJunior/render-deploy@v1.4.6
+      with:
+        # REQUIRED: set these repository secrets in Settings → Secrets and variables → Actions
+        service_id: ${{ secrets.RENDER_SERVICE_ID }}
+        api_key: ${{ secrets.RENDER_API_KEY }}
+        # Optional settings: clear cache, wait for deploy to finish, and create a GitHub Deployment
+        clear_cache: true
+        wait_deploy: true
+        github_deployment: true
+        deployment_environment: production
+        github_token: ${{ secrets.GITHUB_TOKEN }}
