@@ -13,7 +13,11 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        # Removed 14.x because the repository's package-lock.json is lockfileVersion 3
+        # which requires a newer npm than what's bundled with some Node 14 images.
+        # If you need to support Node 14, regenerate the lockfile with npm compatible
+        # with Node 14 or add a step to upgrade npm on the runner before `npm ci`.
+        node-version: [16.x, 18.x]
 
     steps:
     - uses: actions/checkout@v3
