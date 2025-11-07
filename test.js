@@ -16,7 +16,7 @@ const server = app.listen(0, () => {
       data += d;
     });
     res.on('end', () => {
-      if (res.statusCode === 200 && data === 'Hello World!') {
+      if (res.statusCode === 200 && data === 'WMATD EXPERIMENT 6!') {
         console.log('Tests passed!');
         server.close();
         process.exit(0);
