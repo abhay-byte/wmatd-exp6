@@ -4,7 +4,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
-  res.send('WMATD EXPERIMENT 6!');
+  res.send('Hello World!');
 });
 
 if (require.main === module) {
