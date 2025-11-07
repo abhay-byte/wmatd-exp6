@@ -1,0 +1,12 @@
+# Node.js
+node_modules/
+*.log
+.env
+
+# npm
+npm-debug.log*
+package-lock.json
+
+# IDEs
+.vscode/
+.idea/
